@@ -17,4 +17,10 @@ jobs:
           rm -rf notion-bot
           git clone ${{ github.server_url }}/${{ github.repository }}
           cd notion-bot
+          
+          touch .env
+          echo "NOTION_KEY=${{ secrets.NOTION_KEY }}\n" >> .env
+          echo "NOTION_DATABASE_ID=${{ secrets.NOTION_DATABASE_ID }}\n" >> .env
+          echo "TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}\n" >> .env
+          
           docker compose up --no-deps --build -d
