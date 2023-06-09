@@ -13,4 +13,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        script: whoami
+        script: |
+          git clone ${{ github.repositoryUrl }}
+          cd notion-bot
+          docker compose up --no-deps --build -d
