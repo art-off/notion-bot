@@ -14,6 +14,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
+          rm -rf notion-bot
           git clone ${{ github.repositoryUrl }}
           cd notion-bot
           docker compose up --no-deps --build -d
