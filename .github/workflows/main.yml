@@ -1,18 +1,13 @@
-name: git clone and build on server
-
-on:
-  push:
-    branches:
-      - master
-
+name: remote ssh command
+on: [push]
 jobs:
 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands
-      uses: appleboy/ssh-action@v0.1.6
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
