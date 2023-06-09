@@ -3,7 +3,7 @@ name: git clone and build on server
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
 
