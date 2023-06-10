@@ -3,3 +3,8 @@ services:
     build: .
     ports:
       - "445:445"
+    volumes:
+      - data:/data
+
+volumes:
+  data:

@@ -9,7 +9,7 @@ export class Repository {
 
     prepared() {
         this.#db.serialize(() => {
-            this.#makeTables()
+            this.makeTables()
         })
         return this
     }
@@ -42,7 +42,7 @@ export class Repository {
 
 
     // Helpers
-    #makeTables() {
+    makeTables() {
         this.#db.run(`CREATE TABLE IF NOT EXISTS tg_users (
             tg_id INTEGER PRIMARY KEY, 
             notion_key TEXT, 
