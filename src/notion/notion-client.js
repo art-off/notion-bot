@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
 
-export class NotionClient {
+class NotionClient {
     constructor(notionApiKey) {
         this.client = new Client({ auth: notionApiKey })
     }
@@ -26,4 +26,8 @@ export class NotionClient {
             return false
         }
     }
+}
+
+export const makeNotionClient = (notionApiKey) => {
+    return new NotionClient(notionApiKey)
 }
