@@ -7,7 +7,7 @@ export class NotionClient {
 
     async addItemInto(databaseId, title) {
         try {
-            const response = await this.client.pages.create({
+            await this.client.pages.create({
                 parent: { database_id: databaseId },
                 properties: {
                     title: {
