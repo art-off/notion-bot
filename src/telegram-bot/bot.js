@@ -9,7 +9,7 @@ export const makeBot = (repository, inMemoryStorage) => {
     const updateNotionInfoScene = makeUpdateNotionInfoScene(repository, inMemoryStorage)
     const notionTodoAddingScene = makeNotionTodoAddingScene(repository)
 
-    const stage = new Scenes.Stage([updateNotionInfoScene, notionTodoAddingScene], { default: 'update-notion-info' })
+    const stage = new Scenes.Stage([updateNotionInfoScene, notionTodoAddingScene], { default: 'notion-todo-adding' })
 
     bot.use(session())
     bot.use(stage.middleware())
