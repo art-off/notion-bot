@@ -4,6 +4,7 @@ import { Repository } from "./database/reposiroty.js";
 import { InMemoryStorage } from "./in-memory/in-memory-storage.js";
 import { makeBot } from "./telegram-bot/bot.js";
 import { makeNotionClient } from "./notion/notion-client.js"
+import { VoiceFileManager } from './voice/voice-file.js';
 
 // load ENV from .env
 dotenv.config()
@@ -13,9 +14,11 @@ const inMemoryStorage = new InMemoryStorage()
 const repository = new Repository(
     process.env.SQLITE_FILE_PATH || assert.fail("SQLITE_FILE_PATH must be in env vars")
 ).prepared()
+const voiceFileManager = new VoiceFileManager(
+    process.env.VOICES_FOLDER_PATH || assert.fail("VOICES_FOLDER_PATH must be in evn vars")
+)
 
-
-const bot = makeBot(repository, inMemoryStorage, makeNotionClient)
+const bot = makeBot(repository, inMemoryStorage, makeNotionClient, voiceFileManager)
 bot.launch();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));

@@ -1,11 +1,17 @@
 import { Scenes } from "telegraf"
 import { message } from "telegraf/filters"
+import axios from "axios"
 
-export const makeNotionTodoAddingScene = (repository, makeNotionClient) => {
+export const makeNotionTodoAddingScene = (repository, makeNotionClient, voiceFileManager) => {
     const scene = new Scenes.BaseScene('notion-todo-adding')
 
     scene
         .command('update_info', ctx => ctx.scene.enter('update-notion-info'))
+        .on(message('voice'), async ctx => {
+            let voiceUrl = await ctx.telegram.getFileLink(ctx.message.voice.file_id)
+            let voiceResponse = await axios.get(voiceUrl, { responseType: 'arraybuffer' })
+            await voiceFileManager.saveFile(voiceResponse.data, ctx.message.voice.file_unique_id)
+        })
         .on(message('text'), async cxt => {
             let user = await repository.getUser(cxt.from.id)
 
@@ -20,7 +26,7 @@ export const makeNotionTodoAddingScene = (repository, makeNotionClient) => {
             await cxt.reply(success ? 'Done' : 'Fail, try /update_info')
         })
         .on('message', async (ctx) => {
-            ctx.reply('Only text messages please')
+            ctx.reply('Only text/audio messages please')
         })
 
     return scene
