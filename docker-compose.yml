@@ -4,8 +4,7 @@ services:
     ports:
       - "445:445"
     volumes:
-      - notion-bot-data:/data
+      - data:/vol
 
 volumes:
-  notion-bot-data:
-    external: true
+  data:
