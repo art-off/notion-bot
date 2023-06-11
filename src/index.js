@@ -16,6 +16,6 @@ const repository = new Repository(
 
 
 const bot = makeBot(repository, inMemoryStorage, makeNotionClient)
-bot.launch()
+bot.launch();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
