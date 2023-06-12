@@ -3,8 +3,8 @@ import { Telegraf, Scenes, session } from "telegraf"
 import { makeUpdateNotionInfoScene } from "./update-notion-info-scene.js"
 import { makeNotionTodoAddingScene } from "./notion-todo-adding-scene.js"
 
-export const makeBot = (repository, inMemoryStorage, makeNotionClient, speechToTextTranslator) => {
-    const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN)
+export const makeBot = (tgBotToken, repository, inMemoryStorage, makeNotionClient, speechToTextTranslator) => {
+    const bot = new Telegraf(tgBotToken)
 
     const updateNotionInfoScene = makeUpdateNotionInfoScene(repository, inMemoryStorage)
     const notionTodoAddingScene = makeNotionTodoAddingScene(repository, makeNotionClient, speechToTextTranslator)

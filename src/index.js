@@ -21,7 +21,7 @@ const speechToTextTranslator = new SpeechToTextTranslator(
     getEnvOrFail('YANDEX_FORLDER_ID')
 )
 
-const bot = makeBot(repository, inMemoryStorage, makeNotionClient, speechToTextTranslator)
+const bot = makeBot(getEnvOrFail('TELEGRAM_BOT_TOKEN'), repository, inMemoryStorage, makeNotionClient, speechToTextTranslator)
 bot.launch();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
