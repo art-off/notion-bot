@@ -1,10 +1,10 @@
-FROM node:12
+FROM node:18-alpine
 
 WORKDIR /notion-bot
 
 COPY package.json ./
 
-RUN npm install
+RUN npm install --production
 
 COPY data/ ./data
 COPY src/ ./src
