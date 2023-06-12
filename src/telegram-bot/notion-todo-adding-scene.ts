@@ -1,14 +1,14 @@
 import { Scenes } from "telegraf"
 import { message } from "telegraf/filters"
 import axios from "axios"
-import { Repository } from "../database/reposiroty"
-import { NotionClient } from "../notion/notion-client"
-import { SpeechToTextTranslator } from "../speech-to-text/speech-to-text-translator"
+import { IRepository } from "../database/reposiroty"
+import { INotionClient } from "../notion/notion-client"
+import { ISpeechToTextTranslator } from "../speech-to-text/speech-to-text-translator"
 
 export const makeNotionTodoAddingScene = (
-    repository: Repository,
-    makeNotionClient: (notionApiKey: string) => NotionClient,
-    speechToTextTranslator: SpeechToTextTranslator
+    repository: IRepository,
+    makeNotionClient: (notionApiKey: string) => INotionClient,
+    speechToTextTranslator: ISpeechToTextTranslator
 ): Scenes.BaseScene => {
     const scene = new Scenes.BaseScene('notion-todo-adding')
 

@@ -1,6 +1,10 @@
 import axios from "axios"
 
-export class SpeechToTextTranslator {
+export interface ISpeechToTextTranslator {
+    speechToText(voiceData: string): Promise<string | null>
+}
+
+export class SpeechToTextTranslator implements ISpeechToTextTranslator {
     #yandexApiKey: string
     #yandexFolderId: string
 

@@ -1,6 +1,10 @@
 import { Client } from "@notionhq/client"
 
-export class NotionClient {
+export interface INotionClient {
+    addItemInto(databaseId: string, title: string): Promise<boolean>
+}
+
+export class NotionClient implements INotionClient {
     #client: Client
 
     constructor(notionApiKey: string) {
@@ -30,6 +34,6 @@ export class NotionClient {
     }
 }
 
-export const makeNotionClient = (notionApiKey: string): NotionClient => {
+export const makeNotionClient = (notionApiKey: string): INotionClient => {
     return new NotionClient(notionApiKey)
 }

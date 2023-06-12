@@ -1,6 +1,11 @@
 import sqlite3 from "sqlite3"
 
-export class Repository {
+export interface IRepository {
+    createUser: (tgId: number, notionKey: string, notionDatabaseId: string) => void
+    getUser(tgId: number): Promise<any>
+}
+
+export class Repository implements IRepository {
     #db: sqlite3.Database
 
     constructor(sqlitePath: string) {

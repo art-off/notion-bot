@@ -1,9 +1,11 @@
-import { Context, Scenes } from "telegraf"
-import { Repository } from "../database/reposiroty"
-import { InMemoryStorage } from "../in-memory/in-memory-storage"
-import { text } from "telegraf/typings/button"
+import { Scenes } from "telegraf"
+import { IRepository, Repository } from "../database/reposiroty"
+import { IInMemoryStorage } from "../in-memory/in-memory-storage"
 
-export const makeUpdateNotionInfoScene = (repository: Repository, inMemoryStorage: InMemoryStorage): Scenes.BaseScene => {
+export const makeUpdateNotionInfoScene = (
+    repository: IRepository,
+    inMemoryStorage: IInMemoryStorage
+): Scenes.BaseScene => {
     let scene = new Scenes.WizardScene(
         'update-notion-info',
         async (ctx) => {
