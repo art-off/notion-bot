@@ -5,4 +5,3 @@ package-lock.json
 notion-bot.sqlite3
 *.ogg
 .DS_Store
-/dist
