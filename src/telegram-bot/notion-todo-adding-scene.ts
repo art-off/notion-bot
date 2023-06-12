@@ -1,8 +1,15 @@
 import { Scenes } from "telegraf"
 import { message } from "telegraf/filters"
 import axios from "axios"
+import { Repository } from "../database/reposiroty"
+import { NotionClient } from "../notion/notion-client"
+import { SpeechToTextTranslator } from "../speech-to-text/speech-to-text-translator"
 
-export const makeNotionTodoAddingScene = (repository, makeNotionClient, speechToTextTranslator) => {
+export const makeNotionTodoAddingScene = (
+    repository: Repository,
+    makeNotionClient: (notionApiKey: string) => NotionClient,
+    speechToTextTranslator: SpeechToTextTranslator
+): Scenes.BaseScene => {
     const scene = new Scenes.BaseScene('notion-todo-adding')
 
     const failMessage = 'Fail, try /update_info'
@@ -12,19 +19,23 @@ export const makeNotionTodoAddingScene = (repository, makeNotionClient, speechTo
             let user = await repository.getUser(ctx.from.id)
             // Если нет такого юзера, значит отправляем его обновлять инфу
             if (user == undefined) {
+                // @ts-ignore: Property 'scene' does not exist on type 'Context<Update>'.ts(2339)
                 return ctx.scene.enter('update-notion-info')
             }
             return await next()
         })
-        .command('update_info', ctx => ctx.scene.enter('update-notion-info'))
+        .command('update_info', ctx => {
+            // @ts-ignore: Property 'scene' does not exist on type 'Context<Update>'.ts(2339)
+            ctx.scene.enter('update-notion-info')
+        })
         .on(message('voice'), async ctx => {
             let user = await repository.getUser(ctx.from.id)
             let voiceUrl = await ctx.telegram.getFileLink(ctx.message.voice.file_id)
-            let voiceResponse = await axios.get(voiceUrl, { responseType: 'arraybuffer' })
+            let voiceResponse = await axios.get(voiceUrl.toString(), { responseType: 'arraybuffer' })
             let text = await speechToTextTranslator.speechToText(voiceResponse.data)
 
             if (!text) {
-                return await ctx.reply('speech to text error')
+                return await ctx.reply('Speech to text error')
             }
 
             let notionClient = makeNotionClient(user.notion_key)
