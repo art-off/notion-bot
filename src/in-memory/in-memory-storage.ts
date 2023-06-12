@@ -1,4 +1,9 @@
-export class InMemoryStorage {
+export interface IInMemoryStorage {
+    getWritableObjWithId(id: string | number): Object
+    clearId(id: string | number): void
+}
+
+export class InMemoryStorage implements IInMemoryStorage {
     #obj: Object
 
     constructor() {

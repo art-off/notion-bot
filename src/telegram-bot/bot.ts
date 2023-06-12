@@ -2,17 +2,17 @@ import { Telegraf, Scenes, session } from "telegraf"
 
 import { makeUpdateNotionInfoScene } from "./update-notion-info-scene.js"
 import { makeNotionTodoAddingScene } from "./notion-todo-adding-scene.js"
-import { Repository } from "../database/reposiroty.js"
-import { InMemoryStorage } from "../in-memory/in-memory-storage.js"
-import { NotionClient } from "../notion/notion-client.js"
-import { SpeechToTextTranslator } from "../speech-to-text/speech-to-text-translator.js"
+import { IRepository } from "../database/reposiroty.js"
+import { IInMemoryStorage } from "../in-memory/in-memory-storage.js"
+import { INotionClient } from "../notion/notion-client.js"
+import { ISpeechToTextTranslator } from "../speech-to-text/speech-to-text-translator.js"
 
 export const makeBot = (
     tgBotToken: string,
-    repository: Repository,
-    inMemoryStorage: InMemoryStorage,
-    makeNotionClient: (id: string) => NotionClient,
-    speechToTextTranslator: SpeechToTextTranslator
+    repository: IRepository,
+    inMemoryStorage: IInMemoryStorage,
+    makeNotionClient: (id: string) => INotionClient,
+    speechToTextTranslator: ISpeechToTextTranslator
 ) => {
     const bot = new Telegraf(tgBotToken)
 
