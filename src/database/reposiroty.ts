@@ -1,20 +1,25 @@
 import sqlite3 from "sqlite3"
 
-export class Repository {
-    #db
+export interface IRepository {
+    createUser: (tgId: number, notionKey: string, notionDatabaseId: string) => void
+    getUser(tgId: number): Promise<any>
+}
 
-    constructor(sqlitePath) {
+export class Repository implements IRepository {
+    #db: sqlite3.Database
+
+    constructor(sqlitePath: string) {
         this.#db = new sqlite3.Database(sqlitePath)
     }
 
-    prepared() {
+    prepared(): Repository {
         this.#db.serialize(() => {
-            this.makeTables()
+            this.#makeTables()
         })
         return this
     }
 
-    createUser(tgId, notionKey, notionDatabaseId) {
+    createUser(tgId: number, notionKey: string, notionDatabaseId: string) {
         try {
             this.#db
                 .prepare("INSERT OR REPLACE INTO tg_users VALUES (?, ?, ?)")
@@ -25,7 +30,7 @@ export class Repository {
         }
     }
 
-    async getUser(tgId) {
+    async getUser(tgId: number): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
                 this.#db
@@ -42,7 +47,7 @@ export class Repository {
 
 
     // Helpers
-    makeTables() {
+    #makeTables() {
         this.#db.run(`CREATE TABLE IF NOT EXISTS tg_users (
             tg_id INTEGER PRIMARY KEY, 
             notion_key TEXT, 

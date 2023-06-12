@@ -1,12 +1,19 @@
 import axios from "axios"
 
-export class SpeechToTextTranslator {
-    constructor(yandexApiKey, yandexFolderId) {
-        this.yandexApiKey = yandexApiKey
-        this.yandexFolderId = yandexFolderId
+export interface ISpeechToTextTranslator {
+    speechToText(voiceData: string): Promise<string | null>
+}
+
+export class SpeechToTextTranslator implements ISpeechToTextTranslator {
+    #yandexApiKey: string
+    #yandexFolderId: string
+
+    constructor(yandexApiKey: string, yandexFolderId: string) {
+        this.#yandexApiKey = yandexApiKey
+        this.#yandexFolderId = yandexFolderId
     }
 
-    async speechToText(voiceData) {
+    async speechToText(voiceData: string): Promise<string | null> {
         let iAmToken = await this.getIAmToken()
         if (!iAmToken) {
             console.log('iAmToken error')
@@ -17,7 +24,7 @@ export class SpeechToTextTranslator {
             Buffer.from(voiceData),
             {
                 params: {
-                    folderId: this.yandexFolderId,
+                    folderId: this.#yandexFolderId,
                     lang: 'ru-RU'
                 },
                 headers: {
@@ -29,11 +36,11 @@ export class SpeechToTextTranslator {
         return response['data']['result']
     }
 
-    async getIAmToken() {
+    async getIAmToken(): Promise<string | undefined> {
         let response = await axios.post(
             'https://iam.api.cloud.yandex.net/iam/v1/tokens',
             {
-                yandexPassportOauthToken: this.yandexApiKey
+                yandexPassportOauthToken: this.#yandexApiKey
             }
         )
         return response['data']['iamToken']

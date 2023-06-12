@@ -1,13 +1,19 @@
 import { Client } from "@notionhq/client"
 
-class NotionClient {
-    constructor(notionApiKey) {
-        this.client = new Client({ auth: notionApiKey })
+export interface INotionClient {
+    addItemInto(databaseId: string, title: string): Promise<boolean>
+}
+
+export class NotionClient implements INotionClient {
+    #client: Client
+
+    constructor(notionApiKey: string) {
+        this.#client = new Client({ auth: notionApiKey })
     }
 
-    async addItemInto(databaseId, title) {
+    async addItemInto(databaseId: string, title: string): Promise<boolean> {
         try {
-            await this.client.pages.create({
+            await this.#client.pages.create({
                 parent: { database_id: databaseId },
                 properties: {
                     title: {
@@ -28,6 +34,6 @@ class NotionClient {
     }
 }
 
-export const makeNotionClient = (notionApiKey) => {
+export const makeNotionClient = (notionApiKey: string): INotionClient => {
     return new NotionClient(notionApiKey)
 }
