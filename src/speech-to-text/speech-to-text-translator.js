@@ -30,9 +30,12 @@ export class SpeechToTextTranslator {
     }
 
     async getIAmToken() {
-        let response = await axios.post('https://iam.api.cloud.yandex.net/iam/v1/tokens', {
-            yandexPassportOauthToken: this.yandexApiKey
-        })
+        let response = await axios.post(
+            'https://iam.api.cloud.yandex.net/iam/v1/tokens',
+            {
+                yandexPassportOauthToken: this.yandexApiKey
+            }
+        )
         return response['data']['iamToken']
     }
 }
