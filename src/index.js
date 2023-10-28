@@ -25,3 +25,4 @@ const bot = makeBot(getEnvOrFail('TELEGRAM_BOT_TOKEN'), repository, inMemoryStor
 bot.launch();
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
+
